@@ -1,0 +1,25 @@
+# .NET build files
+**/bin/
+**/obj/
+**/.vs/
+**/*.user
+**/*.suo
+
+# Angular and Node.js
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+
+# IDE and operating system
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.DS_Store
+Thumbs.db
+
+# Local configuration and secrets
+**/appsettings.Development.json
+**/.env
+**/.env.*
+!**/.env.example

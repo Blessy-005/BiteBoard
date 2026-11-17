@@ -1,0 +1,6 @@
+@BiteBoard.API_HostAddress = http://localhost:5289
+
+GET {{BiteBoard.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
