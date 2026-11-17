@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 // Register application services.
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IFoodItemService, FoodItemService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 // Register database context.
 builder.Services.AddDbContext<AppDbContext>(options =>

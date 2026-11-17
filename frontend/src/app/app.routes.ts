@@ -2,6 +2,14 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  // Dashboard
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./features/dashboard/pages/dashboard/dashboard')
+        .then(m => m.Dashboard)
+  },
+
   // Category routes
   {
     path: 'categories/add',
@@ -45,7 +53,7 @@ export const routes: Routes = [
   // Default route
   {
     path: '',
-    redirectTo: 'categories',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   }
 ];

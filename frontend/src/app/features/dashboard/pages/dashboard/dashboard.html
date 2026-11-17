@@ -1,0 +1,34 @@
+
+<h2>BiteBoard Dashboard</h2>
+
+<p>Overview of your food menu management system.</p>
+
+@if (isLoading) {
+  <p>Loading dashboard...</p>
+} @else if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+} @else if (stats) {
+  <div class="dashboard-stats">
+
+    <div class="stat-card">
+      <h3>Total Food Items</h3>
+      <p>{{ stats.totalFoodItems }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Total Categories</h3>
+      <p>{{ stats.totalCategories }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Available Food Items</h3>
+      <p>{{ stats.availableFoodItems }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Unavailable Food Items</h3>
+      <p>{{ stats.unavailableFoodItems }}</p>
+    </div>
+
+  </div>
+}
