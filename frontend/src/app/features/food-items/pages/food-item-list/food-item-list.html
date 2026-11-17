@@ -3,6 +3,44 @@
 
 <a routerLink="/food-items/add">Add New Food Item</a>
 
+<hr />
+
+<h3>Search and Filter</h3>
+
+<div>
+  <label for="search">Search Food:</label>
+  <input
+    id="search"
+    type="text"
+    placeholder="Enter food name..."
+    [value]="searchText"
+    (input)="onSearchChange($any($event.target).value)"
+  />
+</div>
+
+<div>
+  <label for="category">Filter by Category:</label>
+  <select
+    id="category"
+    [value]="selectedCategoryId"
+    (change)="onCategoryChange($any($event.target).value)"
+  >
+    <option value="0">All Categories</option>
+
+    @for (category of categories; track category.id) {
+      <option [value]="category.id">
+        {{ category.name }}
+      </option>
+    }
+  </select>
+</div>
+
+<button type="button" (click)="clearFilters()">
+  Clear Filters
+</button>
+
+<hr />
+
 @if (isLoading) {
   <p>Loading food items...</p>
 } @else if (errorMessage) {

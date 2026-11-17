@@ -32,9 +32,13 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllFoodItems()
+        public async Task<IActionResult> GetAllFoodItems(
+            [FromQuery] string? search,
+            [FromQuery] int? categoryId)
         {
-            var foodItems = await _foodItemService.GetAllFoodItemsAsync();
+            var foodItems = await _foodItemService.GetAllFoodItemsAsync(
+                search,
+                categoryId);
 
             return Ok(foodItems);
         }

@@ -43,10 +43,29 @@ namespace BiteBoard.API.Services
             return foodItem;
         }
 
-        public async Task<List<FoodItem>> GetAllFoodItemsAsync()
+        public async Task<List<FoodItem>> GetAllFoodItemsAsync(
+            string? search,
+            int? categoryId)
         {
-            return await _context.FoodItems
+            var query = _context.FoodItems
                 .Include(f => f.Category)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                string searchTerm = search.Trim();
+
+                query = query.Where(f =>
+                    f.Name.Contains(searchTerm));
+            }
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(f =>
+                    f.CategoryId == categoryId.Value);
+            }
+
+            return await query
                 .OrderBy(f => f.Name)
                 .ToListAsync();
         }

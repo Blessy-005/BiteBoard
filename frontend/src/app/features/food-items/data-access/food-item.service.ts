@@ -1,6 +1,6 @@
 
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
@@ -24,9 +24,23 @@ export class FoodItemService {
     );
   }
 
-  getAllFoodItems(): Observable<FoodItem[]> {
+  getAllFoodItems(
+    search?: string,
+    categoryId?: number
+  ): Observable<FoodItem[]> {
+    let params = new HttpParams();
+
+    if (search?.trim()) {
+      params = params.set('search', search.trim());
+    }
+
+    if (categoryId) {
+      params = params.set('categoryId', categoryId);
+    }
+
     return this.http.get<FoodItem[]>(
-      `${environment.apiUrl}/fooditems`
+      `${environment.apiUrl}/fooditems`,
+      { params }
     );
   }
 
