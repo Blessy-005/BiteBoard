@@ -15,6 +15,8 @@ namespace BiteBoard.API.Data
 
         public DbSet<FoodItem> FoodItems { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -22,6 +24,11 @@ namespace BiteBoard.API.Data
             modelBuilder.Entity<FoodItem>()
                 .Property(f => f.Price)
                 .HasPrecision(10, 2);
+
+            // Ensure every user has a unique email address.
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
         }
     }
 }

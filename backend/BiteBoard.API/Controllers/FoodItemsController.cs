@@ -1,6 +1,6 @@
-
 using BiteBoard.API.DTOs.FoodItem;
 using BiteBoard.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiteBoard.API.Controllers
@@ -17,6 +17,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> CreateFoodItem(CreateFoodItemDto dto)
         {
             try
@@ -32,6 +33,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetAllFoodItems(
             [FromQuery] string? search,
             [FromQuery] int? categoryId)
@@ -44,6 +46,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetFoodItemById(int id)
         {
             var foodItem = await _foodItemService.GetFoodItemByIdAsync(id);
@@ -55,6 +58,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> UpdateFoodItem(
             int id,
             UpdateFoodItemDto dto)
@@ -75,6 +79,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFoodItem(int id)
         {
             var deleted = await _foodItemService.DeleteFoodItemAsync(id);

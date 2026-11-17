@@ -1,6 +1,6 @@
-﻿
 using BiteBoard.API.DTOs.Category;
 using BiteBoard.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiteBoard.API.Controllers
@@ -17,6 +17,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> CreateCategory(CreateCategoryDto dto)
         {
             try
@@ -35,6 +36,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff,Customer")]
         public async Task<IActionResult> GetAllCategories()
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
@@ -42,6 +44,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> UpdateCategory(
             int id,
             UpdateCategoryDto dto)
@@ -66,6 +69,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             try

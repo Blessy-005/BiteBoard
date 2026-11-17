@@ -1,10 +1,12 @@
-﻿using BiteBoard.API.Services.Interfaces;
+using BiteBoard.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiteBoard.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Staff")]
     public class DashboardController : ControllerBase
     {
         private readonly IDashboardService _dashboardService;
