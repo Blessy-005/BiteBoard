@@ -18,36 +18,74 @@ namespace BiteBoard.API.Services
 
         public async Task<Category> CreateCategoryAsync(CreateCategoryDto dto)
         {
-            // Validate category name
             if (string.IsNullOrWhiteSpace(dto.Name))
-            {
                 throw new ArgumentException("Category name is required.");
-            }
 
-            // Remove unnecessary spaces
             var categoryName = dto.Name.Trim();
 
-            // Check for duplicate category name
             bool exists = await _context.Categories
                 .AnyAsync(c => c.Name.ToLower() == categoryName.ToLower());
 
             if (exists)
-            {
                 throw new InvalidOperationException("Category already exists.");
-            }
 
-            // Create category object
             var category = new Category
             {
                 Name = categoryName,
                 Description = dto.Description?.Trim()
             };
 
-            // Save category
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
             return category;
+        }
+
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
+
+        public async Task<Category?> UpdateCategoryAsync(int id, UpdateCategoryDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Name))
+                throw new ArgumentException("Category name is required.");
+
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+                return null;
+
+            var categoryName = dto.Name.Trim();
+
+            bool exists = await _context.Categories
+                .AnyAsync(c => c.Id != id &&
+                    c.Name.ToLower() == categoryName.ToLower());
+
+            if (exists)
+                throw new InvalidOperationException("Category already exists.");
+
+            category.Name = categoryName;
+            category.Description = dto.Description?.Trim();
+
+            await _context.SaveChangesAsync();
+
+            return category;
+        }
+        public async Task<bool> DeleteCategoryAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+                return false;
+
+            _context.Categories.Remove(category);
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

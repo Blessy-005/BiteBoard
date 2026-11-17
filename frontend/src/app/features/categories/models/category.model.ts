@@ -1,3 +1,4 @@
+
 export interface Category {
   id: number;
   name: string;
@@ -5,6 +6,11 @@ export interface Category {
 }
 
 export interface CreateCategoryRequest {
+  name: string;
+  description?: string | null;
+}
+
+export interface UpdateCategoryRequest {
   name: string;
   description?: string | null;
 }

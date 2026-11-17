@@ -1,0 +1,42 @@
+
+<h2>Category List</h2>
+
+@if (isLoading) {
+  <p>Loading categories...</p>
+} @else if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+} @else if (categories.length === 0) {
+  <p>No categories found.</p>
+} @else {
+  <table border="1" cellpadding="10">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Category Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (category of categories; track category.id) {
+        <tr>
+          <td>{{ category.id }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description || '-' }}</td>
+          <td>
+            <a [routerLink]="['/categories/edit', category.id]">
+              Edit
+            </a>
+
+            <button
+              type="button"
+              (click)="deleteCategory(category.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

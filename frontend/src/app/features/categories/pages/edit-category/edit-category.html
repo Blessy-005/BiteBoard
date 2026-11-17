@@ -1,0 +1,46 @@
+
+<h2>Edit Category</h2>
+
+@if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+}
+
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label for="name">Category Name</label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      placeholder="Enter category name"
+    />
+
+    @if (categoryForm.controls.name.hasError('required')
+        && categoryForm.controls.name.touched) {
+      <p>Category name is required.</p>
+    }
+
+    @if (categoryForm.controls.name.hasError('maxlength')
+        && categoryForm.controls.name.touched) {
+      <p>Category name cannot exceed 100 characters.</p>
+    }
+
+    @if (categoryForm.controls.name.hasError('pattern')
+        && categoryForm.controls.name.touched) {
+      <p>Category name cannot contain only spaces.</p>
+    }
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      formControlName="description"
+      placeholder="Enter category description"
+    ></textarea>
+  </div>
+
+  <button type="submit">Update Category</button>
+
+</form>
