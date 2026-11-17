@@ -42,7 +42,9 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateCategory(int id, UpdateCategoryDto dto)
+        public async Task<IActionResult> UpdateCategory(
+            int id,
+            UpdateCategoryDto dto)
         {
             try
             {
@@ -62,15 +64,23 @@ namespace BiteBoard.API.Controllers
                 return Conflict(new { message = ex.Message });
             }
         }
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var deleted = await _categoryService.DeleteCategoryAsync(id);
+            try
+            {
+                var deleted = await _categoryService.DeleteCategoryAsync(id);
 
-            if (!deleted)
-                return NotFound(new { message = "Category not found." });
+                if (!deleted)
+                    return NotFound(new { message = "Category not found." });
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
         }
     }
 }

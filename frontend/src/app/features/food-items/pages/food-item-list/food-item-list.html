@@ -1,0 +1,50 @@
+
+<h2>Food Item List</h2>
+
+<a routerLink="/food-items/add">Add New Food Item</a>
+
+@if (isLoading) {
+  <p>Loading food items...</p>
+} @else if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+} @else if (foodItems.length === 0) {
+  <p>No food items found.</p>
+} @else {
+  <table border="1" cellpadding="10">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Food Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Availability</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (food of foodItems; track food.id) {
+        <tr>
+          <td>{{ food.id }}</td>
+          <td>{{ food.name }}</td>
+          <td>{{ food.description || '-' }}</td>
+          <td>₹{{ food.price }}</td>
+          <td>{{ food.category?.name || '-' }}</td>
+          <td>{{ food.isAvailable ? 'Available' : 'Unavailable' }}</td>
+          <td>
+            <a [routerLink]="['/food-items/edit', food.id]">
+              Edit
+            </a>
+
+            <button
+              type="button"
+              (click)="deleteFoodItem(food.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

@@ -1,4 +1,5 @@
-﻿using BiteBoard.API.Models;
+﻿
+using BiteBoard.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BiteBoard.API.Data
@@ -9,7 +10,18 @@ namespace BiteBoard.API.Data
             : base(options)
         {
         }
+
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<FoodItem> FoodItems { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<FoodItem>()
+                .Property(f => f.Price)
+                .HasPrecision(10, 2);
+        }
     }
 }

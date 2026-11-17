@@ -48,7 +48,9 @@ namespace BiteBoard.API.Services
                 .ToListAsync();
         }
 
-        public async Task<Category?> UpdateCategoryAsync(int id, UpdateCategoryDto dto)
+        public async Task<Category?> UpdateCategoryAsync(
+            int id,
+            UpdateCategoryDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Name))
                 throw new ArgumentException("Category name is required.");
@@ -74,12 +76,22 @@ namespace BiteBoard.API.Services
 
             return category;
         }
+
         public async Task<bool> DeleteCategoryAsync(int id)
         {
             var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
                 return false;
+
+            bool hasFoodItems = await _context.FoodItems
+                .AnyAsync(f => f.CategoryId == id);
+
+            if (hasFoodItems)
+            {
+                throw new InvalidOperationException(
+                    "Cannot delete this category because it contains food items.");
+            }
 
             _context.Categories.Remove(category);
 
