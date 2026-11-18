@@ -1,4 +1,34 @@
-<h1>{{ title() }}</h1>
-<p>Welcome to BiteBoard – Food Menu Management System!</p>
+@if (showNavigation) {
+  <header class="app-header">
+    <div class="brand">
+      <h2>BiteBoard</h2>
+      <span>Food Menu Management</span>
+    </div>
 
-<router-outlet />
+    <nav class="navigation">
+      @if (authService.isAdmin() || authService.isStaff()) {
+        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      }
+
+      <a routerLink="/food-items" routerLinkActive="active">Food Items</a>
+      <a routerLink="/categories" routerLinkActive="active">Categories</a>
+    </nav>
+
+    <div class="user-section">
+      @if (authService.currentUser(); as user) {
+        <div class="user-info">
+          <strong>{{ user.name }}</strong>
+          <span>{{ user.role }}</span>
+        </div>
+      }
+
+      <button class="logout-button" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+}
+
+<main class="app-content">
+  <router-outlet />
+</main>

@@ -1,97 +1,166 @@
-﻿<h2>Food Item List</h2>
+﻿<section class="food-page">
 
-@if (authService.isAdmin()) {
-  <a routerLink="/food-items/add">Add New Food Item</a>
-}
+  <div class="page-heading">
+    <div>
+      <p class="page-label">MENU MANAGEMENT</p>
+      <h1>Food Items</h1>
+      <p class="page-description">
+        Manage and explore the food items available in your menu.
+      </p>
+    </div>
 
-<hr />
-
-<h3>Search and Filter</h3>
-
-<div>
-  <label for="search">Search Food:</label>
-  <input
-    id="search"
-    type="text"
-    placeholder="Enter food name..."
-    [value]="searchText"
-    (input)="onSearchChange($any($event.target).value)"
-  />
-</div>
-
-<div>
-  <label for="category">Filter by Category:</label>
-  <select
-    id="category"
-    [value]="selectedCategoryId"
-    (change)="onCategoryChange($any($event.target).value)"
-  >
-    <option value="0">All Categories</option>
-
-    @for (category of categories; track category.id) {
-      <option [value]="category.id">
-        {{ category.name }}
-      </option>
+    @if (authService.isAdmin()) {
+      <a class="primary-button" routerLink="/food-items/add">
+        + Add Food Item
+      </a>
     }
-  </select>
-</div>
+  </div>
 
-<button type="button" (click)="clearFilters()">
-  Clear Filters
-</button>
+  <section class="filter-panel">
+    <div class="filter-heading">
+      <div>
+        <h2>Search & Filter</h2>
+        <p>Find food items by name or category.</p>
+      </div>
+    </div>
 
-<hr />
+    <div class="filter-controls">
+      <div class="filter-field search-field">
+        <label for="search">Search Food</label>
+        <input
+          id="search"
+          type="text"
+          placeholder="Search by food name..."
+          [value]="searchText"
+          (input)="onSearchChange($any($event.target).value)"
+        />
+      </div>
 
-@if (isLoading) {
-  <p>Loading food items...</p>
-} @else if (errorMessage) {
-  <p>{{ errorMessage }}</p>
-} @else if (foodItems.length === 0) {
-  <p>No food items found.</p>
-} @else {
-  <table border="1" cellpadding="10">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Food Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Availability</th>
+      <div class="filter-field">
+        <label for="category">Category</label>
+        <select
+          id="category"
+          [value]="selectedCategoryId"
+          (change)="onCategoryChange($any($event.target).value)"
+        >
+          <option value="0">All Categories</option>
 
-        @if (authService.isAdmin() || authService.isStaff()) {
-          <th>Actions</th>
-        }
-      </tr>
-    </thead>
-
-    <tbody>
-      @for (food of foodItems; track food.id) {
-        <tr>
-          <td>{{ food.id }}</td>
-          <td>{{ food.name }}</td>
-          <td>{{ food.description || '-' }}</td>
-          <td>₹{{ food.price }}</td>
-          <td>{{ food.category?.name || '-' }}</td>
-          <td>{{ food.isAvailable ? 'Available' : 'Unavailable' }}</td>
-
-          @if (authService.isAdmin() || authService.isStaff()) {
-            <td>
-              <a [routerLink]="['/food-items/edit', food.id]">
-                Edit
-              </a>
-
-              @if (authService.isAdmin()) {
-                <button
-                  type="button"
-                  (click)="deleteFoodItem(food.id)">
-                  Delete
-                </button>
-              }
-            </td>
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">
+              {{ category.name }}
+            </option>
           }
-        </tr>
-      }
-    </tbody>
-  </table>
-}
+        </select>
+      </div>
+
+      <button
+        class="secondary-button clear-button"
+        type="button"
+        (click)="clearFilters()"
+      >
+        Clear Filters
+      </button>
+    </div>
+  </section>
+
+  <section class="food-table-panel">
+    <div class="table-heading">
+      <div>
+        <h2>All Food Items</h2>
+        <p>Food items registered in BiteBoard.</p>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="page-message">
+        <p>Loading food items...</p>
+      </div>
+    } @else if (errorMessage) {
+      <div class="error-message">
+        <p>{{ errorMessage }}</p>
+      </div>
+    } @else if (foodItems.length === 0) {
+      <div class="empty-message">
+        <h3>No food items found</h3>
+        <p>Try changing your search or category filter.</p>
+      </div>
+    } @else {
+
+      <div class="table-wrapper">
+        <table class="food-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Food Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Availability</th>
+
+              @if (authService.isAdmin() || authService.isStaff()) {
+                <th>Actions</th>
+              }
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (food of foodItems; track food.id) {
+              <tr>
+                <td class="id-cell">#{{ food.id }}</td>
+
+                <td class="food-name">
+                  {{ food.name }}
+                </td>
+
+                <td class="description-cell">
+                  {{ food.description || '-' }}
+                </td>
+
+                <td class="price-cell">
+                  &#8377;{{ food.price }}
+                </td>
+
+                <td>
+                  {{ food.category?.name || '-' }}
+                </td>
+
+                <td>
+                  <span
+                    class="status-badge"
+                    [class.available]="food.isAvailable"
+                    [class.unavailable]="!food.isAvailable"
+                  >
+                    {{ food.isAvailable ? 'Available' : 'Unavailable' }}
+                  </span>
+                </td>
+
+                @if (authService.isAdmin() || authService.isStaff()) {
+                  <td class="action-cell">
+                    <a
+                      class="edit-button"
+                      [routerLink]="['/food-items/edit', food.id]"
+                    >
+                      Edit
+                    </a>
+
+                    @if (authService.isAdmin()) {
+                      <button
+                        class="delete-button"
+                        type="button"
+                        (click)="deleteFoodItem(food.id)"
+                      >
+                        Delete
+                      </button>
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+</section>
+

@@ -1,3 +1,4 @@
+
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -56,11 +57,13 @@ export class Login {
         },
         error: (error) => {
           if (error.name === 'TimeoutError') {
-            this.errorMessage = 'Server is not responding. Please try again.';
+            this.errorMessage = 'Login is taking too long. Please try again.';
           } else if (error.status === 401) {
-            this.errorMessage = 'Invalid email or password. New to BiteBoard? Create an account.';
+            this.errorMessage =
+              'Unable to sign in. Check your email and password, or create a new account.';
           } else if (error.status === 0) {
-            this.errorMessage = 'Cannot connect to the server. Check whether the backend is running.';
+            this.errorMessage =
+              'Cannot connect to the server. Check whether the backend is running.';
           } else {
             this.errorMessage = 'Login failed. Please try again.';
           }

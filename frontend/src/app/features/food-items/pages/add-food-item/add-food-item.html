@@ -1,100 +1,88 @@
+﻿<section class="food-form-page">
 
-<h2>Add Food Item</h2>
-
-@if (errorMessage) {
-  <p>{{ errorMessage }}</p>
-}
-
-<form [formGroup]="foodItemForm" (ngSubmit)="onSubmit()">
-
-  <div>
-    <label for="name">Food Name</label>
-    <input
-      id="name"
-      type="text"
-      formControlName="name"
-      placeholder="Enter food name"
-    />
-
-    @if (foodItemForm.controls.name.hasError('required')
-        && foodItemForm.controls.name.touched) {
-      <p>Food name is required.</p>
-    }
-
-    @if (foodItemForm.controls.name.hasError('maxlength')
-        && foodItemForm.controls.name.touched) {
-      <p>Food name cannot exceed 100 characters.</p>
-    }
-
-    @if (foodItemForm.controls.name.hasError('pattern')
-        && foodItemForm.controls.name.touched) {
-      <p>Food name cannot contain only spaces.</p>
-    }
+  <div class="form-heading">
+    <p class="page-label">MENU MANAGEMENT</p>
+    <h1>Add Food Item</h1>
+    <p>Enter the details to add a new item to your menu.</p>
   </div>
 
-  <div>
-    <label for="description">Description</label>
-    <textarea
-      id="description"
-      formControlName="description"
-      placeholder="Enter description"
-    ></textarea>
-  </div>
+  @if (errorMessage) {
+    <div class="form-error">{{ errorMessage }}</div>
+  }
 
-  <div>
-    <label for="price">Price (₹)</label>
-    <input
-      id="price"
-      type="number"
-      formControlName="price"
-      min="0.01"
-      step="0.01"
-    />
+  <form class="food-form" [formGroup]="foodItemForm" (ngSubmit)="onSubmit()">
 
-    @if (foodItemForm.controls.price.invalid
-        && foodItemForm.controls.price.touched) {
-      <p>Price must be greater than zero.</p>
-    }
-  </div>
+    <div class="form-field">
+      <label for="name">Food Name <span>*</span></label>
+      <input id="name" type="text" formControlName="name"
+        placeholder="Enter food name" />
 
-  <div>
-    <label for="imageUrl">Image URL</label>
-    <input
-      id="imageUrl"
-      type="text"
-      formControlName="imageUrl"
-      placeholder="Enter image URL (optional)"
-    />
-  </div>
-
-  <div>
-    <label for="categoryId">Category</label>
-    <select id="categoryId" formControlName="categoryId">
-      <option [ngValue]="0">Select Category</option>
-
-      @for (category of categories; track category.id) {
-        <option [ngValue]="category.id">
-          {{ category.name }}
-        </option>
+      @if (foodItemForm.controls.name.hasError('required') && foodItemForm.controls.name.touched) {
+        <small class="validation-error">Food name is required.</small>
       }
-    </select>
 
-    @if (foodItemForm.controls.categoryId.invalid
-        && foodItemForm.controls.categoryId.touched) {
-      <p>Please select a category.</p>
-    }
-  </div>
+      @if (foodItemForm.controls.name.hasError('maxlength') && foodItemForm.controls.name.touched) {
+        <small class="validation-error">Food name cannot exceed 100 characters.</small>
+      }
 
-  <div>
-    <label>
-      <input
-        type="checkbox"
-        formControlName="isAvailable"
-      />
-      Available
-    </label>
-  </div>
+      @if (foodItemForm.controls.name.hasError('pattern') && foodItemForm.controls.name.touched) {
+        <small class="validation-error">Food name cannot contain only spaces.</small>
+      }
+    </div>
 
-  <button type="submit">Add Food Item</button>
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"
+        placeholder="Describe the food item..." rows="4"></textarea>
+    </div>
 
-</form>
+    <div class="form-field">
+      <label for="price">Price (&#8377;) <span>*</span></label>
+      <input id="price" type="number" formControlName="price"
+        min="0.01" step="0.01" placeholder="Enter price" />
+
+      @if (foodItemForm.controls.price.invalid && foodItemForm.controls.price.touched) {
+        <small class="validation-error">Price must be greater than zero.</small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="imageUrl">Image URL</label>
+      <input id="imageUrl" type="text" formControlName="imageUrl"
+        placeholder="Enter image URL (optional)" />
+      <small class="field-hint">You can leave this field empty.</small>
+    </div>
+
+    <div class="form-field">
+      <label for="categoryId">Category <span>*</span></label>
+      <select id="categoryId" formControlName="categoryId">
+        <option [ngValue]="0">Select Category</option>
+
+        @for (category of categories; track category.id) {
+          <option [ngValue]="category.id">{{ category.name }}</option>
+        }
+      </select>
+
+      @if (foodItemForm.controls.categoryId.invalid && foodItemForm.controls.categoryId.touched) {
+        <small class="validation-error">Please select a category.</small>
+      }
+    </div>
+
+    <div class="availability-field">
+      <label class="availability-label">
+        <input type="checkbox" formControlName="isAvailable" />
+        <span>
+          <strong>Available for customers</strong>
+          <small>Customers can see this item as available.</small>
+        </span>
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button class="form-submit-button" type="submit">Add Food Item</button>
+      <a class="form-cancel-button" routerLink="/food-items">Cancel</a>
+    </div>
+
+  </form>
+</section>
+

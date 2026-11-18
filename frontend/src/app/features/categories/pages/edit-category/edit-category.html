@@ -1,46 +1,65 @@
+<section class="category-form-page">
 
-<h2>Edit Category</h2>
-
-@if (errorMessage) {
-  <p>{{ errorMessage }}</p>
-}
-
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-
-  <div>
-    <label for="name">Category Name</label>
-    <input
-      id="name"
-      type="text"
-      formControlName="name"
-      placeholder="Enter category name"
-    />
-
-    @if (categoryForm.controls.name.hasError('required')
-        && categoryForm.controls.name.touched) {
-      <p>Category name is required.</p>
-    }
-
-    @if (categoryForm.controls.name.hasError('maxlength')
-        && categoryForm.controls.name.touched) {
-      <p>Category name cannot exceed 100 characters.</p>
-    }
-
-    @if (categoryForm.controls.name.hasError('pattern')
-        && categoryForm.controls.name.touched) {
-      <p>Category name cannot contain only spaces.</p>
-    }
+  <div class="category-form-heading">
+    <p class="page-label">MENU MANAGEMENT</p>
+    <h1>Edit Category</h1>
+    <p>Update the details of this category.</p>
   </div>
 
-  <div>
-    <label for="description">Description</label>
-    <textarea
-      id="description"
-      formControlName="description"
-      placeholder="Enter category description"
-    ></textarea>
-  </div>
+  @if (errorMessage) {
+    <div class="category-form-error">{{ errorMessage }}</div>
+  }
 
-  <button type="submit">Update Category</button>
+  <form
+    class="category-form"
+    [formGroup]="categoryForm"
+    (ngSubmit)="onSubmit()"
+  >
 
-</form>
+    <div class="category-form-field">
+      <label for="name">Category Name <span>*</span></label>
+
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Enter category name"
+      />
+
+      @if (categoryForm.controls.name.hasError('required') && categoryForm.controls.name.touched) {
+        <small class="category-validation-error">Category name is required.</small>
+      }
+
+      @if (categoryForm.controls.name.hasError('maxlength') && categoryForm.controls.name.touched) {
+        <small class="category-validation-error">Category name cannot exceed 100 characters.</small>
+      }
+
+      @if (categoryForm.controls.name.hasError('pattern') && categoryForm.controls.name.touched) {
+        <small class="category-validation-error">Category name cannot contain only spaces.</small>
+      }
+    </div>
+
+    <div class="category-form-field">
+      <label for="description">Description</label>
+
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Describe this category..."
+        rows="4"
+      ></textarea>
+    </div>
+
+    <div class="category-form-actions">
+      <button class="category-submit-button" type="submit">
+        Update Category
+      </button>
+
+      <a class="category-cancel-button" routerLink="/categories">
+        Cancel
+      </a>
+    </div>
+
+  </form>
+
+</section>

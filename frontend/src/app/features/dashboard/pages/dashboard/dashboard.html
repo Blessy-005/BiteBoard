@@ -1,34 +1,64 @@
+<section class="dashboard-page">
 
-<h2>BiteBoard Dashboard</h2>
-
-<p>Overview of your food menu management system.</p>
-
-@if (isLoading) {
-  <p>Loading dashboard...</p>
-} @else if (errorMessage) {
-  <p>{{ errorMessage }}</p>
-} @else if (stats) {
-  <div class="dashboard-stats">
-
-    <div class="stat-card">
-      <h3>Total Food Items</h3>
-      <p>{{ stats.totalFoodItems }}</p>
+  <div class="dashboard-heading">
+    <div>
+      <p class="page-label">OVERVIEW</p>
+      <h1>Dashboard</h1>
+      <p class="page-description">
+        Welcome back! Here's what's happening with your food menu.
+      </p>
     </div>
-
-    <div class="stat-card">
-      <h3>Total Categories</h3>
-      <p>{{ stats.totalCategories }}</p>
-    </div>
-
-    <div class="stat-card">
-      <h3>Available Food Items</h3>
-      <p>{{ stats.availableFoodItems }}</p>
-    </div>
-
-    <div class="stat-card">
-      <h3>Unavailable Food Items</h3>
-      <p>{{ stats.unavailableFoodItems }}</p>
-    </div>
-
   </div>
-}
+
+  @if (isLoading) {
+    <div class="dashboard-message">
+      <p>Loading dashboard statistics...</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="dashboard-error">
+      <p>{{ errorMessage }}</p>
+    </div>
+  } @else if (stats) {
+
+    <div class="dashboard-stats">
+
+      <article class="stat-card food-card">
+        <div class="stat-top">
+          <span class="stat-label">Total Food Items</span>
+          <span class="stat-symbol">F</span>
+        </div>
+        <h2>{{ stats.totalFoodItems }}</h2>
+        <p>Items in your menu</p>
+      </article>
+
+      <article class="stat-card category-card">
+        <div class="stat-top">
+          <span class="stat-label">Total Categories</span>
+          <span class="stat-symbol">C</span>
+        </div>
+        <h2>{{ stats.totalCategories }}</h2>
+        <p>Menu categories</p>
+      </article>
+
+      <article class="stat-card available-card">
+        <div class="stat-top">
+          <span class="stat-label">Available Items</span>
+          <span class="stat-symbol">A</span>
+        </div>
+        <h2>{{ stats.availableFoodItems }}</h2>
+        <p>Currently available</p>
+      </article>
+
+      <article class="stat-card unavailable-card">
+        <div class="stat-top">
+          <span class="stat-label">Unavailable Items</span>
+          <span class="stat-symbol">U</span>
+        </div>
+        <h2>{{ stats.unavailableFoodItems }}</h2>
+        <p>Currently unavailable</p>
+      </article>
+
+    </div>
+  }
+
+</section>

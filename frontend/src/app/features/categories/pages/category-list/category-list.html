@@ -1,55 +1,84 @@
-﻿<h2>Category List</h2>
+<section class="category-page">
 
-@if (authService.isAdmin()) {
-  <a routerLink="/categories/add">Add New Category</a>
-}
+  <div class="category-page-heading">
+    <div>
+      <p class="page-label">MENU MANAGEMENT</p>
+      <h1>Categories</h1>
+      <p class="page-description">
+        Organize and manage the categories in your food menu.
+      </p>
+    </div>
 
-<hr />
+    @if (authService.isAdmin()) {
+      <a class="category-primary-button" routerLink="/categories/add">
+        + Add Category
+      </a>
+    }
+  </div>
 
-@if (isLoading) {
-  <p>Loading categories...</p>
-} @else if (errorMessage) {
-  <p>{{ errorMessage }}</p>
-} @else if (categories.length === 0) {
-  <p>No categories found.</p>
-} @else {
-  <table border="1" cellpadding="10">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Category Name</th>
-        <th>Description</th>
+  <section class="category-table-panel">
+    <div class="category-section-heading">
+      <h2>All Categories</h2>
+      <p>Categories registered in BiteBoard.</p>
+    </div>
 
-        @if (authService.isAdmin() || authService.isStaff()) {
-          <th>Actions</th>
-        }
-      </tr>
-    </thead>
+    @if (isLoading) {
+      <div class="category-message">Loading categories...</div>
+    } @else if (errorMessage) {
+      <div class="category-error">{{ errorMessage }}</div>
+    } @else if (categories.length === 0) {
+      <div class="category-empty">
+        <h3>No categories found</h3>
+        <p>Add a category to start organizing your food items.</p>
+      </div>
+    } @else {
+      <div class="category-table-wrapper">
+        <table class="category-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Category Name</th>
+              <th>Description</th>
 
-    <tbody>
-      @for (category of categories; track category.id) {
-        <tr>
-          <td>{{ category.id }}</td>
-          <td>{{ category.name }}</td>
-          <td>{{ category.description || '-' }}</td>
-
-          @if (authService.isAdmin() || authService.isStaff()) {
-            <td>
-              <a [routerLink]="['/categories/edit', category.id]">
-                Edit
-              </a>
-
-              @if (authService.isAdmin()) {
-                <button
-                  type="button"
-                  (click)="deleteCategory(category.id)">
-                  Delete
-                </button>
+              @if (authService.isAdmin() || authService.isStaff()) {
+                <th>Actions</th>
               }
-            </td>
-          }
-        </tr>
-      }
-    </tbody>
-  </table>
-}
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (category of categories; track category.id) {
+              <tr>
+                <td class="category-id">#{{ category.id }}</td>
+                <td class="category-name">{{ category.name }}</td>
+                <td>{{ category.description || '-' }}</td>
+
+                @if (authService.isAdmin() || authService.isStaff()) {
+                  <td class="category-actions">
+                    <a
+                      class="category-edit-button"
+                      [routerLink]="['/categories/edit', category.id]"
+                    >
+                      Edit
+                    </a>
+
+                    @if (authService.isAdmin()) {
+                      <button
+                        class="category-delete-button"
+                        type="button"
+                        (click)="deleteCategory(category.id)"
+                      >
+                        Delete
+                      </button>
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+</section>
