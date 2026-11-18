@@ -1,5 +1,4 @@
-
-import {
+﻿import {
   Component,
   OnInit,
   inject,
@@ -9,6 +8,7 @@ import { RouterLink } from '@angular/router';
 
 import { CategoryService } from '../../data-access/category.service';
 import { Category } from '../../models/category.model';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-category-list',
@@ -19,6 +19,8 @@ import { Category } from '../../models/category.model';
 export class CategoryList implements OnInit {
   private categoryService = inject(CategoryService);
   private cdr = inject(ChangeDetectorRef);
+
+  authService = inject(AuthService);
 
   categories: Category[] = [];
   isLoading = true;

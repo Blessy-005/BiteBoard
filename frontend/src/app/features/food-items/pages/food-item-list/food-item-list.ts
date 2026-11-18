@@ -1,5 +1,4 @@
-
-import {
+﻿import {
   Component,
   OnInit,
   inject,
@@ -11,6 +10,7 @@ import { FoodItemService } from '../../data-access/food-item.service';
 import { FoodItem } from '../../models/food-item.model';
 import { CategoryService } from '../../../categories/data-access/category.service';
 import { Category } from '../../../categories/models/category.model';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-food-item-list',
@@ -22,6 +22,8 @@ export class FoodItemList implements OnInit {
   private foodItemService = inject(FoodItemService);
   private categoryService = inject(CategoryService);
   private cdr = inject(ChangeDetectorRef);
+
+  authService = inject(AuthService);
 
   foodItems: FoodItem[] = [];
   categories: Category[] = [];

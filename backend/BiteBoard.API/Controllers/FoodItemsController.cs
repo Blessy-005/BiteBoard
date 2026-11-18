@@ -1,4 +1,4 @@
-using BiteBoard.API.DTOs.FoodItem;
+﻿using BiteBoard.API.DTOs.FoodItem;
 using BiteBoard.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +17,12 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Staff")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateFoodItem(CreateFoodItemDto dto)
         {
             try
             {
                 var foodItem = await _foodItemService.CreateFoodItemAsync(dto);
-
                 return StatusCode(201, foodItem);
             }
             catch (ArgumentException ex)
@@ -39,8 +38,7 @@ namespace BiteBoard.API.Controllers
             [FromQuery] int? categoryId)
         {
             var foodItems = await _foodItemService.GetAllFoodItemsAsync(
-                search,
-                categoryId);
+                search, categoryId);
 
             return Ok(foodItems);
         }

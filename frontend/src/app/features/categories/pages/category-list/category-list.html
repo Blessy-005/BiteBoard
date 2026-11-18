@@ -1,5 +1,10 @@
+﻿<h2>Category List</h2>
 
-<h2>Category List</h2>
+@if (authService.isAdmin()) {
+  <a routerLink="/categories/add">Add New Category</a>
+}
+
+<hr />
 
 @if (isLoading) {
   <p>Loading categories...</p>
@@ -14,7 +19,10 @@
         <th>ID</th>
         <th>Category Name</th>
         <th>Description</th>
-        <th>Actions</th>
+
+        @if (authService.isAdmin() || authService.isStaff()) {
+          <th>Actions</th>
+        }
       </tr>
     </thead>
 
@@ -24,17 +32,22 @@
           <td>{{ category.id }}</td>
           <td>{{ category.name }}</td>
           <td>{{ category.description || '-' }}</td>
-          <td>
-            <a [routerLink]="['/categories/edit', category.id]">
-              Edit
-            </a>
 
-            <button
-              type="button"
-              (click)="deleteCategory(category.id)">
-              Delete
-            </button>
-          </td>
+          @if (authService.isAdmin() || authService.isStaff()) {
+            <td>
+              <a [routerLink]="['/categories/edit', category.id]">
+                Edit
+              </a>
+
+              @if (authService.isAdmin()) {
+                <button
+                  type="button"
+                  (click)="deleteCategory(category.id)">
+                  Delete
+                </button>
+              }
+            </td>
+          }
         </tr>
       }
     </tbody>

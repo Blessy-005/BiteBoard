@@ -1,7 +1,8 @@
+﻿<h2>Food Item List</h2>
 
-<h2>Food Item List</h2>
-
-<a routerLink="/food-items/add">Add New Food Item</a>
+@if (authService.isAdmin()) {
+  <a routerLink="/food-items/add">Add New Food Item</a>
+}
 
 <hr />
 
@@ -57,7 +58,10 @@
         <th>Price</th>
         <th>Category</th>
         <th>Availability</th>
-        <th>Actions</th>
+
+        @if (authService.isAdmin() || authService.isStaff()) {
+          <th>Actions</th>
+        }
       </tr>
     </thead>
 
@@ -70,17 +74,22 @@
           <td>₹{{ food.price }}</td>
           <td>{{ food.category?.name || '-' }}</td>
           <td>{{ food.isAvailable ? 'Available' : 'Unavailable' }}</td>
-          <td>
-            <a [routerLink]="['/food-items/edit', food.id]">
-              Edit
-            </a>
 
-            <button
-              type="button"
-              (click)="deleteFoodItem(food.id)">
-              Delete
-            </button>
-          </td>
+          @if (authService.isAdmin() || authService.isStaff()) {
+            <td>
+              <a [routerLink]="['/food-items/edit', food.id]">
+                Edit
+              </a>
+
+              @if (authService.isAdmin()) {
+                <button
+                  type="button"
+                  (click)="deleteFoodItem(food.id)">
+                  Delete
+                </button>
+              }
+            </td>
+          }
         </tr>
       }
     </tbody>

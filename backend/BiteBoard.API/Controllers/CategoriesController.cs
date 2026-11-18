@@ -1,4 +1,4 @@
-using BiteBoard.API.DTOs.Category;
+﻿using BiteBoard.API.DTOs.Category;
 using BiteBoard.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace BiteBoard.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Staff")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCategory(CreateCategoryDto dto)
         {
             try
